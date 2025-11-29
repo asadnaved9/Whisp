@@ -1,0 +1,22 @@
+    ~ We start with the "npm init -y" command > then name them "main": "app.js",
+    ~ No npm install  "express mongoose ejs bcrypt jsonwebtoken cookie-parser",
+
+    ~ Folder Structure:
+
+        app.js/
+        models/
+            user.js/
+        views/
+            index.js/
+
+
+    ~ app.js
+        Firstly write the basic express code, ejs code.
+        require userModel
+
+    ~ models/ user.js
+        Firstly connect mongoose with mongoDB > make userSchema > now export them
+
+    ~ index.ejs 
+        In form action="/register"(on submitting it will go..) method="post"(password will not be seen in the url).
+        
