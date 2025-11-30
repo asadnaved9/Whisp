@@ -21,6 +21,12 @@ app.get('/', (req, res) =>{
 app.get('/login', (req, res) => {
     res.render('login');
 })
+
+app.get('/profile', isLoggedIn, (req, res) =>{
+    console.log(req.user);
+    res.render("login");
+})
+
 app.post('/register', async (req, res) =>{// On submitting the form we will go to /register route
     let {email, name, username, password, age} = req.body;// By this we are destructuring the user details by using req.body
 
@@ -52,8 +58,14 @@ app.post('/login', async (req, res) =>{// On submitting the form we will redirec
     if(!user) return res.status(500).send("Something went wrong");
 
     bcrypt.compare(password, user.password, (err, result) => {// here password is new pass(which rn in given), user.password means the old and actual pass 
-        if(result) res.status(200).send("You can login");// if the new password is and the old password is true Login sucessfully.
-        res.redirect('/login');
+        if(result) {
+             // here we have set the jwt because login kre ya register tokeen set hona chye
+            let token = jwt.sign({ email: email, userid: user._id}, "shh");// shh is a secret key
+            res.cookie("token", token);// we have set the token
+
+            res.status(200).send("You can login");// if the new password is and the old password is true Login sucessfully.
+        }
+        else res.redirect('/login');
     })
 })
 
@@ -62,5 +74,16 @@ app.get('/logout', (req, res) => {
     res.redirect("login");
 })
 
+// Protected Route 
+// If we are loggedIn this middleware will check if it contains the token or not 
+function isLoggedIn(req, res, next){// this is a middleware 
+    if(req.cookies.token === "") res.send("You must be logged in");// browser se jo token ki value aarhi hai vo blank hai toh ww will redirect
+    
+    else {// agr token blank nhi hai toh
+        let data = jwt.verify(req.cookies.token, "shh");// agr ye valid token hai toh secret key saath hume vo data (email. userid) mil jyega
+        req.user = data; // isme email aur userid wala data set hua hai jo valid hoga.
+        next();
+    }
+}
 
 app.listen(3000);
