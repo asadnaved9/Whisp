@@ -22,16 +22,22 @@ app.get('/login', (req, res) => {
     res.render('login');
 })
 
-app.get('/profile', isLoggedIn, async (req, res) =>{
-    let user = await userModel.findOne({email: req.user.email});
-    console.log(user);
+app.get('/profile', isLoggedIn, async (req, res) =>{ 
+    let user = await userModel.findOne({email: req.user.email}).populate("posts");
     res.render("profile", {user});
 })
 
-app.get('/post', isLoggedIn, async (req, res) =>{// isLoggedIn means post tb hi hoga jb app logged in ho.
+app.post('/post', isLoggedIn, async (req, res) =>{// isLoggedIn means post tb hi hoga jb app logged in ho.
     let user = await userModel.findOne({email: req.user.email});
-    console.log(user);
-    res.render("profile", {user});
+    let {content} = req.body;
+
+    let post = await postModel.create({
+        user: user._id,
+        content, // req.body se jo bhi content text area me rhega vo accessable hai
+    });
+    user.posts.push(post._id);// abb user ko batana hai ki post ki id kiya hai
+    await user.save();// ye user me save kiye hai kyuki abhi humlog haath se kiye hai
+    res.redirect("/profile");
 })
 
 app.post('/register', async (req, res) =>{// On submitting the form we will go to /register route
