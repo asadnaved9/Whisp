@@ -36,7 +36,7 @@ app.get('/like/:id', isLoggedIn, async (req, res) =>{
         post.likes.splice(post.likes.indexOf(req.user.userid), 1);
     }
     await post.save();
-    res.redirect("/profile");
+    res.redirect("/feed");
 })
 
 app.get('/edit/:id', isLoggedIn, async (req, res) =>{ 
@@ -49,13 +49,15 @@ app.post('/update/:id', isLoggedIn, async (req, res) =>{
     res.redirect("/profile");
 })
 
-// app.get("/feed", isLoggedIn, async (req, res) => {
-//     const posts = await postModel.find()
-//         .populate("user")   // so we can show user info
-//         .sort({date: -1}); // newest first
+//Feed Section
+app.get("/feed", isLoggedIn, async (req, res) => {
+    const posts = await postModel.find()
+        .populate("user")   // so we can show user info
+        .sort({date: -1}); // newest first
 
-//     res.render("feed", { posts, user:req.user });
-// });
+    res.render("feed", { posts, user:req.user });
+});
+
 
 
 app.post('/post', isLoggedIn, async (req, res) =>{// isLoggedIn means post tb hi hoga jb app logged in ho.
@@ -90,7 +92,7 @@ app.post('/register', async (req, res) =>{// On submitting the form we will go t
             // User aa chuka hai ab token bhjna hai
             let token = jwt.sign({ email: email, userid: user._id}, "shh");// shh is a secret key
             res.cookie("token", token);// we have set the token 
-            res.send('registered');
+            res.redirect("/login");
         })
     })
 })
