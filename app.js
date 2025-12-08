@@ -37,8 +37,26 @@ app.get('/like/:id', isLoggedIn, async (req, res) =>{
     }
     await post.save();
     res.redirect("/profile");
-    
 })
+
+app.get('/edit/:id', isLoggedIn, async (req, res) =>{ 
+    let post = await postModel.findOne({_id: req.params.id}).populate("user");
+    res.render("edit", {post})
+})
+
+app.post('/update/:id', isLoggedIn, async (req, res) =>{ 
+    let post = await postModel.findOneAndUpdate({_id: req.params.id}, {content: req.body.content});
+    res.redirect("/profile");
+})
+
+// app.get("/feed", isLoggedIn, async (req, res) => {
+//     const posts = await postModel.find()
+//         .populate("user")   // so we can show user info
+//         .sort({date: -1}); // newest first
+
+//     res.render("feed", { posts, user:req.user });
+// });
+
 
 app.post('/post', isLoggedIn, async (req, res) =>{// isLoggedIn means post tb hi hoga jb app logged in ho.
     let user = await userModel.findOne({email: req.user.email});

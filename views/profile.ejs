@@ -26,8 +26,8 @@
                     <p class="text-sm tracking-tight"><%= post.content %></p>
                     <small class="mt-4 inline-block"><%= post.likes.length %> Likes</small>
                     <div class="btns flex mt-1 gap-4">
-                        <a class="text-blue-500" href="/like/<%= post._id %>"><%= post.likes.indexOf(user._id) === "-1" ? "Like" : "Unlike" %></a> <!-- From this we will get post._id as a like button is clicked -->
-                        <a class="text-zinc-400 ml-auto" href="">Edit</a>
+                        <a class="<%= post.likes.indexOf(user._id) === -1 ? 'text-blue-500' : 'text-red-500' %>"  href="/like/<%= post._id %>"><%= post.likes.indexOf(user._id) ? "Like" : "Unlike" %></a> <!-- From this we will get post._id as a like button is clicked -->
+                        <a class="text-zinc-400 ml-auto" href="/edit/<%= post._id %>">Edit</a>
                     </div>
                 </div>
                 <% }) %>

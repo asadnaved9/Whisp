@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Whisp</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-zinc-900 text-white p-10">
+
+<a href="/profile" class="bg-blue-500 px-3 py-2 rounded-md inline-block mb-5">My Profile</a>
+
+<h1 class="text-3xl mb-5">Explore Posts</h1>
+
+<% posts.forEach(post => { %>
+<div class="w-1/2 border border-zinc-700 bg-zinc-800 p-5 mb-6 rounded-md">
+    
+    <h4 class="text-blue-400">@<%= post.user.username %></h4>
+    <p><%= post.content %></p>
+
+    <small><%= post.likes.length %> Likes</small>
+
+    <a href="/like/<%= post._id %>"
+       class="<%= post.likes.includes(user.userid) ? 'text-red-500' : 'text-blue-500' %>">
+       <%= post.likes.includes(user.userid) ? "Unlike" : "Like" %>
+    </a>
+
+</div>
+<% }) %>
+
+</body>
+</html>
