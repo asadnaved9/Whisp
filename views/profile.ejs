@@ -24,9 +24,9 @@
                     <div class="post mb-4 w-1/2 p-4 border-2 border-zinc-700 rounded-md bg-zinc-800">
                     <h4 class="text-blue-400 mb-2">@<%= user.username %></h4>
                     <p class="text-sm tracking-tight"><%= post.content %></p>
-                    <div class="btns flex mt-5 gap-4">
-                        <a class="text-blue-500" href="">Like</a>
-                        <a class="text-red-500" href="">Unlike</a>
+                    <small class="mt-4 inline-block"><%= post.likes.length %> Likes</small>
+                    <div class="btns flex mt-1 gap-4">
+                        <a class="text-blue-500" href="/like/<%= post._id %>"><%= post.likes.indexOf(user._id) === "-1" ? "Like" : "Unlike" %></a> <!-- From this we will get post._id as a like button is clicked -->
                         <a class="text-zinc-400 ml-auto" href="">Edit</a>
                     </div>
                 </div>
