@@ -36,14 +36,16 @@
         />
       </form>
       <div class="posts mt-18">
-        <h3 class="text-zinc-400 inline-block">
-          Your Posts<i class="ri-home-line"></i>
-        </h3>
-        <span
-          ><a class="text-cyan-400 mb-5 inline-block underline" href="/feed"
-            >Explore Feed</a
-          ></span
-        >
+        <div class="flex justify-evenly">
+          <h3 class="text-amber-300 inline-block">
+            Your Posts<i class="ri-home-smile-2-fill"></i>
+          </h3>
+          <span
+            ><a class="text-cyan-400 mb-5 inline-block" href="/feed"
+              >Explore Feed<i class="ri-chat-ai-4-fill"></i></a
+            ></span
+          >
+        </div>
         <div class="postcontainer mt-5">
           <% user.posts.reverse().forEach(function(post){ %>
           <div

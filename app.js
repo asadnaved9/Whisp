@@ -92,7 +92,8 @@ app.post('/register', async (req, res) =>{// On submitting the form we will go t
             // User aa chuka hai ab token bhjna hai
             let token = jwt.sign({ email: email, userid: user._id}, "shh");// shh is a secret key
             res.cookie("token", token);// we have set the token 
-            res.redirect("/login");
+            // res.redirect("/login");
+            res.send("registerd")
         })
     })
 })
