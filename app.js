@@ -133,4 +133,4 @@ function isLoggedIn(req, res, next){// this is a middleware
     }
 }
 
-app.listen(3000);
+app.listen(process.env.PORT || 5000);
