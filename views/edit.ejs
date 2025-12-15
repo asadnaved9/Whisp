@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Whisp</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
@@ -11,9 +15,9 @@
         <div class="w-full flex justify-end">
             <a class="bg-red-500 px-3 py-2 text-sm rounded-md mb-5 inline-block" href="/logout">Logout</a>
         </div>
-        <h5 class="mb-5">Edit Your Post.</h5>
+        <h5 class="mb-5">Edit Your Post. <span><i class="ri-pencil-ai-fill"></i></span></h5>
         <form action="/update/<%= post._id %>" method="post">
-            <textarea placeholder="What's in your mind?" class="block w-1/2 resize-none bg-zinc-800 border-2 border-zinc-700 rounded-md p-2 outline-none text-zinc-300" name="content" ><%= post.content %></textarea>
+            <textarea placeholder="What's in your mind?" class="block w-72 resize-none bg-zinc-800 border-2 border-zinc-700 rounded-md p-2 outline-none text-zinc-300" name="content" ><%= post.content %></textarea>
             <input class="px-3 w-40 py-2 bg-yellow-500 text-black block mt-2 rounded-md text-sm" type="submit" value="Update Post">
         </form>
     </div>    
