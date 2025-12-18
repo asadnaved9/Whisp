@@ -6,7 +6,11 @@ const postModel = require("./models/post");
 
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const multer = require('multer');
+
+const path = require('path');
+const crypto = require('crypto');// ye node js me hi hai
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -14,10 +18,31 @@ app.use(express.urlencoded({ extended:true}));
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
-app.get('/', (req, res) =>{
-    res.render("index");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/images/uploads');
+  },// kis folder me jana hai
+  filename: function (req, file, cb) {
+    crypto.randomBytes(12, function (err, bytes) {
+        const fn = bytes.toString("hex") + path.extname(file.originalname)
+        cb(null, fn)
+    })
+  }// kis filename se save hoga
 })
 
+const upload = multer({ storage: storage })
+
+app.get('/', (req, res) =>{
+    res.render("index");
+});
+
+app.get('/test', (req, res) =>{
+    res.render('test');
+})
+
+app.post('/upload', upload.single("image"), (req, res) => {
+    console.log(req.file);// multer add two thing in req --> body(only for text fields), file(files)
+})
 app.get('/login', (req, res) => {
     res.render('login');
 })
@@ -133,7 +158,8 @@ function isLoggedIn(req, res, next){// this is a middleware
     }
 }
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+app.listen(3000);
